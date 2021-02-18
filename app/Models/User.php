@@ -41,4 +41,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['profile_picture'];
+
+    /**
+     * Get the user's profile picture.
+     *
+     * @return string
+     */
+    public function getProfilePictureAttribute()
+    {
+        return $this->attributes['profile_picture'] ?? public_path('images/profile-photo-placeholder.png');
+    }
 }
