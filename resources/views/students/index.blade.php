@@ -9,12 +9,14 @@
                     <th width="15%">S/N</th>
                     <th>Name</th>
                     <th>Email</th>
+                    @if (Auth::user()->hasRole('program coordinator'))
                     <th>Applied</th>
+                    @endif
+                    @if (Auth::user()->hasRole('admin'))
+                    <th>No of programs</th>
+                    @endif
                     <th>Date Created</th>
                     <th colspan="2"></th>
-                    @if (Auth::user()->hasRole('admin'))
-                        <th class="table-primary">Number of programs</th>
-                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +25,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $student->name }}</td>
                     <td>{{ $student->email }}</td>
+                    @if (Auth::user()->hasRole('program coordinator'))
                     <td class="font-weight-bold">
                         {{
                             $student->programs
@@ -32,6 +35,10 @@
                                 ->applied ? 'YES' : 'NO'
                         }}
                     </td>
+                    @endif
+                    @if (Auth::user()->hasRole('admin'))
+                    <td>{{ $student->programs()->count() }}</td>
+                    @endif
                     <td>{{ $student->created_at->format('d F, Y') }}</td>
                     <td>
                         <a href="{{ route('students.edit', [
@@ -51,9 +58,6 @@
                             <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                         </form>
                     </td>
-                    @if (Auth::user()->hasRole('admin'))
-                        <td>{{ $student->programs()->count() }}</td>
-                    @endif
                 </tr>
                 @endforeach
             </tbody>
