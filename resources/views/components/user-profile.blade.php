@@ -32,17 +32,32 @@
             @method('PATCH')
 
             <div class="form-group">
-                <label for="name">Name</label>
+                <label for="first_name">First Name</label>
                 <input
                     type="text"
-                    name="name"
-                    id="name"
-                    class="form-control @error('name') is-invalid @enderror"
-                    placeholder="Full name"
-                    value="{{ $user->name }}"
+                    name="first_name"
+                    id="first_name"
+                    class="form-control @error('first_name') is-invalid @enderror"
+                    placeholder="First name"
+                    value="{{ $user->first_name }}"
                     required
                 >
-                @error('name')
+                @error('first_name')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name</label>
+                <input
+                    type="text"
+                    name="last_name"
+                    id="last_name"
+                    class="form-control @error('last_name') is-invalid @enderror"
+                    placeholder="Last name"
+                    value="{{ $user->last_name }}"
+                    required
+                >
+                @error('last_name')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>

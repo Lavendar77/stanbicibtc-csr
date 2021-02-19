@@ -66,7 +66,8 @@ class StudentController extends Controller
         // Create the user account if not exist
         if (!$student = User::where('email', $request->email)->first()) {
             $student = User::create([
-                'name' => $request->name,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
                 'email' => $request->email,
                 'password' => Hash::make($password)
             ]);
@@ -122,7 +123,8 @@ class StudentController extends Controller
     public function update(UpdateStudentRequest $request, User $student)
     {
         $student->update([
-            'name' => $request->name ?? $student->name,
+            'first_name' => $request->first_name ?? $student->first_name,
+            'last_name' => $request->last_name ?? $student->last_name,
             'email' => $request->email ?? $student->email,
         ]);
 

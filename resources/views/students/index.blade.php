@@ -6,14 +6,15 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th width="15%">S/N</th>
-                    <th>Name</th>
+                    <th width="5%">S/N</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
                     <th>Email</th>
                     @if (Auth::user()->hasRole(constant('App\Enums\UserRole::PROGRAMCOORDINATOR')))
                     <th>Applied</th>
                     @endif
                     @if (Auth::user()->hasRole(constant('App\Enums\UserRole::ADMIN')))
-                    <th>No of programs</th>
+                    <th>No of Programs</th>
                     @endif
                     <th>Date Created</th>
                     <th colspan="2"></th>
@@ -23,13 +24,16 @@
                 @foreach ($students as $student)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $student->name }}</td>
+                    <td>{{ $student->first_name }}</td>
+                    <td>{{ $student->last_name }}</td>
                     <td>{{ $student->email }}</td>
                     @if (Auth::user()->hasRole(constant('App\Enums\UserRole::PROGRAMCOORDINATOR')))
                     <td class="font-weight-bold">
                         {{
                             $student->programs
-                                ->filter(fn ($program) => $program->id == Auth::user()->program->id)
+                                ->filter(function ($program) {
+                                    return $program->id == Auth::user()->program->id;
+                                })
                                 ->first()
                                 ->pivot
                                 ->applied ? 'YES' : 'NO'

@@ -46,15 +46,18 @@ class HomeController extends Controller
         $currentPhoto = $user->profile_picture;
 
         // Update profile
-        $photo = $request->file('profile_picture')
-            ? $request->file('profile_picture')->store('avatars')
-            : null;
-
         $user->update([
-            'name' => $request->name ?? $user->name,
+            'first_name' => $request->first_name ?? $user->first_name,
+            'last_name' => $request->last_name ?? $user->last_name,
             'email' => $request->email ?? $user->email,
-            'profile_picture' => asset('storage/' . $photo),
         ]);
+
+        // Update profile picture
+        if ($photo = $request->file('profile_picture')) {
+            $user->update([
+                'profile_picture' => asset('storage/' . $photo->store('avatars'))
+            ]);
+        }
 
         // Remove old profile picture
         if (
