@@ -37,6 +37,6 @@ class Program extends Model
      */
     public function programCoordinator()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 }

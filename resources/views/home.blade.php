@@ -11,7 +11,7 @@
                     <x-alert />
 
                     <h4 class="text-primary mb-0">
-                        Welcome back, {{ Auth::user()->name }}
+                        Welcome back, {{ Auth::user()->fullName }}
                     </h4>
 
                     @php
