@@ -9,10 +9,10 @@
                     <th width="15%">S/N</th>
                     <th>Name</th>
                     <th>Email</th>
-                    @if (Auth::user()->hasRole('program coordinator'))
+                    @if (Auth::user()->hasRole(constant('App\Enums\UserRole::PROGRAMCOORDINATOR')))
                     <th>Applied</th>
                     @endif
-                    @if (Auth::user()->hasRole('admin'))
+                    @if (Auth::user()->hasRole(constant('App\Enums\UserRole::ADMIN')))
                     <th>No of programs</th>
                     @endif
                     <th>Date Created</th>
@@ -25,7 +25,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $student->name }}</td>
                     <td>{{ $student->email }}</td>
-                    @if (Auth::user()->hasRole('program coordinator'))
+                    @if (Auth::user()->hasRole(constant('App\Enums\UserRole::PROGRAMCOORDINATOR')))
                     <td class="font-weight-bold">
                         {{
                             $student->programs
@@ -36,7 +36,7 @@
                         }}
                     </td>
                     @endif
-                    @if (Auth::user()->hasRole('admin'))
+                    @if (Auth::user()->hasRole(constant('App\Enums\UserRole::ADMIN')))
                     <td>{{ $student->programs()->count() }}</td>
                     @endif
                     <td>{{ $student->created_at->format('d F, Y') }}</td>
