@@ -35,16 +35,16 @@ class PermissionSeeder extends Seeder
         ];
 
         foreach ($rolePermissions as $role => $permissions) {
-            $role = Role::updateOrCreate([
+            $role = Role::firstOrCreate([
                 'name' => $role
             ]);
 
             foreach ($permissions as $permission) {
-                Permission::updateOrCreate([
+                $perm = Permission::firstOrCreate([
                     'name' => $permission
                 ]);
 
-                $role->givePermissionTo($permission);
+                $role->givePermissionTo($perm);
             }
         }
     }

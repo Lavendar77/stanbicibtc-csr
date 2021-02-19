@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Enums\UserRole;
-use App\Models\Program;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,7 +16,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         // Create admins
-        User::factory()
+        User::factory(1)
             ->state([
                 'email' => 'admin@' . config('app.domain')
             ])
@@ -27,19 +26,10 @@ class UserSeeder extends Seeder
             });
 
         // Create a program coordinator
-        User::factory()
+        User::factory(1)
             ->state([
                 'email' => 'programcoordinator@' . config('app.domain')
             ])
-            ->has(
-                Program::factory()
-                    ->state(function (array $attributes, User $user) {
-                        return [
-                            'name' => 'Scholarship Application',
-                            'user_id' => $user->id
-                        ];
-                    })
-            )
             ->create()
             ->each(function ($programCoordinator) {
                 $programCoordinator->assignRole(UserRole::PROGRAMCOORDINATOR);
