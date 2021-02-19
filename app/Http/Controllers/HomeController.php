@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
-use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -40,7 +43,7 @@ class HomeController extends Controller
     public function update(ProfileUpdateRequest $request)
     {
         $user = $request->user();
-        // TODO: Remove old profile picture
+        $currentPhoto = $user->profile_picture;
 
         // Update profile
         $photo = $request->file('profile_picture')
@@ -52,6 +55,14 @@ class HomeController extends Controller
             'email' => $request->email ?? $user->email,
             'profile_picture' => asset('storage/' . $photo),
         ]);
+
+        // Remove old profile picture
+        if (
+            $user->wasChanged('profile_picture')
+            && !Str::contains($currentPhoto, 'placeholder')
+        ) {
+            Storage::delete('avatars/' . basename($currentPhoto));
+        }
 
         $request->session()->flash('status', 'Profile Updated Successfully!');
 
