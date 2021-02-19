@@ -45,13 +45,41 @@
                                     <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-                            
+
                             @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a
+                                    href="{{ route('home') }}"
+                                    class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}"
+                                >
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item {{
+                                Auth::user()->cannot(['manage students'])
+                                    ? 'd-none'
+                                    : ''
+                            }}">
+                                <a
+                                    href="{{ route('students.index') }}"
+                                    class="nav-link {{ request()->routeIs('students.*') ? 'active' : '' }}"
+                                >
+                                    Students
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    href="{{ route('profile') }}"
+                                    class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}"
+                                >
+                                    Profile
+                                </a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +21,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes([
+    'register' => false
+]);
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::middleware('auth')->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [HomeController::class, 'profile'])->name('profile');
+        Route::patch('/update', [HomeController::class, 'update'])->name('update-profile');
+    });
+
+    Route::resource('students', StudentController::class)->middleware('can:manage students');
+
+    Route::post('programs/{program}/apply', [ProgramController::class, 'apply'])
+        ->name('program-apply')
+        ->middleware('can:apply to programs');
+});

@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_picture',
     ];
 
     /**
@@ -43,19 +44,35 @@ class User extends Authenticatable
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = ['profile_picture'];
-
-    /**
      * Get the user's profile picture.
      *
      * @return string
      */
     public function getProfilePictureAttribute()
     {
-        return $this->attributes['profile_picture'] ?? public_path('images/profile-photo-placeholder.png');
+        return $this->attributes['profile_picture'] ?? asset('images/profile-picture-placeholder.png');
+    }
+
+    /**
+     * Get the program user is coordinating.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function program()
+    {
+        return $this->hasOne(Program::class);
+    }
+
+    /**
+     * Get the programs for the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function programs()
+    {
+        return $this->belongsToMany(Program::class)
+            ->using(ProgramUser::class)
+            ->withPivot('applied')
+            ->withTimestamps();
     }
 }
