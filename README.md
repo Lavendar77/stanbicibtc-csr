@@ -85,4 +85,4 @@ Record a short video (not more than 15 minutes) walk-through of your application
 # References
 ![image](public/images/schema.png)
 [Diagram Schema](https://dbdiagram.io/d/603034dbfcdcb6230b20a96d)
-[Tutorial Video]()
+[Tutorial Guide](https://drive.google.com/file/d/1uJdAeo7Dzqy6vD5u42_sqEeh8iIrjcJt/view?usp=sharing)
